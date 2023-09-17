@@ -8,6 +8,7 @@ class CircleWorldTest {
 
     CircleWorld cw1 = new CircleWorld(100, 150);
     
+
     @Test
     void tests() {        
         assertEquals("[100.0, 150.0]", cw1.toString());

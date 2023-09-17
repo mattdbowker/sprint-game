@@ -8,7 +8,7 @@ public class CircleApp extends PApplet {
     CircleWorld w;
     
     public void settings() {
-        this.size(400, 400);
+        this.size(400, 200);
     }
     
     public void setup() {
@@ -21,11 +21,11 @@ public class CircleApp extends PApplet {
     }
     
     public void mousePressed(MouseEvent mev) {
-        w = w.mousePressed(mev);
+        //w = w.mousePressed(mev);
     }
     
     public void keyPressed(KeyEvent kev) {
-        // w = w.keyPressed(kev);
+         //w = w.keyPressed(kev);
     }
 
     public static void main(String[] args) {
