@@ -4,15 +4,15 @@ import processing.event.*;
 /**
  * Provides the scaffolding to launch a Processing application
  */
-public class CircleApp extends PApplet {
-    CircleWorld w;
+public class TrackApp extends PApplet {
+    TrackWorld w;
     
     public void settings() {
-        this.size(400, 200);
+        this.size(800, 200);
     }
     
     public void setup() {
-        w = new CircleWorld(200, 0);
+        w = new TrackWorld(200, 0);
     }
     
     public void draw() {
@@ -25,10 +25,10 @@ public class CircleApp extends PApplet {
     }
     
     public void keyPressed(KeyEvent kev) {
-         //w = w.keyPressed(kev);
+         w = w.keyPressed(kev);
     }
 
     public static void main(String[] args) {
-        PApplet.runSketch(new String[] { "CircleApp" }, new CircleApp());
+        PApplet.runSketch(new String[] { "TrackApp" }, new TrackApp());
     }
 }

@@ -1,6 +1,6 @@
 
 
-
+// class for positions
 class Posn {
   double x;
   double y;

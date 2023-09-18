@@ -1,3 +1,5 @@
+
+// class representing a runner (circle) on the track
 public class Runner {
     int size;
     String color;
