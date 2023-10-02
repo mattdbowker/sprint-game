@@ -6,10 +6,10 @@ public class Runner {
     double speed;
     Posn p;
 
-    public Runner(int size, String color, double speed, Posn p) {
+    public Runner(int size, String color, Posn p) {
         this.size = size;
         this.color = color;
-        this.speed = speed;
+        this.speed = Math.random();
         this.p = p;
     }
 

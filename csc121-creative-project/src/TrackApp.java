@@ -5,19 +5,23 @@ import processing.event.*;
  * Provides the scaffolding to launch a Processing application
  */
 public class TrackApp extends PApplet {
-    TrackWorld w;
+    IWorld currentState;
+    //TrackWorld w;
     
     public void settings() {
-        this.size(800, 200);
+        this.size(800, 220);
     }
     
     public void setup() {
-        w = new TrackWorld(200, 0);
+        //w = new TrackWorld(200, 0);
+        currentState = new WelcomeState();
     }
     
     public void draw() {
-        w = w.update();
-        w.draw(this);
+        currentState = currentState.update();
+    	//w = w.update();
+    	//w.draw(this);
+        currentState.draw(this);
     }
     
     public void mousePressed(MouseEvent mev) {
@@ -25,7 +29,8 @@ public class TrackApp extends PApplet {
     }
     
     public void keyPressed(KeyEvent kev) {
-         w = w.keyPressed(kev);
+    	 //w = w.keyPressed(kev);
+         currentState = currentState.keyPressed(kev);
     }
 
     public static void main(String[] args) {
