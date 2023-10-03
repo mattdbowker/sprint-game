@@ -15,7 +15,9 @@ public class TrackWorld implements IWorld{
 		this.y = y; 
 	}
 
-   
+   /**
+    * Runners displayed on the track
+    */
 	Runner r1 = new Runner(25, "blue", new Posn(25,40));
 	Runner r2 = new Runner(25, "green", new Posn(25,80));
 	Runner r3 = new Runner(25, "red", new Posn(25,120));
@@ -94,23 +96,37 @@ public class TrackWorld implements IWorld{
 			if(updatedX1 >= 770) {
 				X1 = true;
 				r1.p.x = 770;
+				//r1.crossFinishLine();
 			}
 			if(updatedX2 >= 770) {
 				X2 = true;
 				r2.p.x = 770;
+				//r2.crossFinishLine();
 			}
 			if(updatedX3 >= 770) {
 				X3 = true;
 				r3.p.x = 770;
+				//r3.crossFinishLine();
 			}
 			if(updatedX4 >= 770) {
 				X4 = true;
 				r4.p.x = 770;
+				//r4.crossFinishLine();
 			}
 			if(me.p.x >= 770) {
 				Player = true;
 				me.p.x = 770;
+				//me.crossFinishLine();
 			}
+			
+			/*
+			 //Check if all runners have finished and record their times
+		    if (X1 && X2 && X3 && X4 && !Player) {
+		        long[] times = {r1.getTime(), r2.getTime(), r3.getTime(), r4.getTime(), me.getTime()};
+		        return new FinishState(times); // Pass the recorded times to FinishState
+		    }*/
+			
+			
 			return this;
 		}
 		return new FinishState();
