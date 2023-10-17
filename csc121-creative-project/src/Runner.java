@@ -17,19 +17,20 @@ public class Runner {
         this.color = color;
         this.speed = randomValue;
         this.p = p;
-        //this.finishTime = finishTime;
+        this.finishTime = -1.0;
     }
     
-    /*
-    public void crossFinishLine() {
-        
+ // Method to record runner's time when they cross the finish line
+    public void crossFinishLine(long currentTime) {
+        if (finishTime == -1.0) {
+            // If the runner hasn't crossed the finish line before, record their time
+            finishTime = (double) currentTime / 1000.0; // Convert milliseconds to seconds
         }
     }
 
-    public long getTime() {
-        
-        }
+    // Method to get the recorded time for the runner
+    public double getTime() {
         return finishTime;
-    }*/
+    }
 
 }
