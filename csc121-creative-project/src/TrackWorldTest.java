@@ -2,11 +2,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import processing.event.*;
-
 class TrackWorldTest {
 
-    TrackWorld cw1 = new TrackWorld(100, 150);
+    TrackWorld cw1 = new TrackWorld(5);
     
 
     @Test

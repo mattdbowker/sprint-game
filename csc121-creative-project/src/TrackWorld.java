@@ -1,30 +1,32 @@
 import processing.core.PApplet;
 import processing.event.KeyEvent;
-
 /**
  *
  */
 public class TrackWorld implements IWorld{
-	// positions of various elements
-	double x;
-	double y;
+	private int players; // Max players 9   
+	private long trackTime;
+	private String[] colors;
+	private Runner[] runners;
+	private static int screenSize;
+	private Player player;
 
+	public TrackWorld(int players) { 
+		this.players = players;
+		runners = new Runner[players]; 
+		screenSize = 40 *(players+1);
+		colors = new String[] {"blue","green","red","purple","yellow","orange","pink","cyan","magenta"};
+		for (int i = 0; i < players; i++) {
+			runners[i] = new Runner(25, colors[i], new Posn(25, (i + 1) * 40));
+		}
+		this.player = new Player(25, "white", new Posn(25, (players + 1) *40));
+	}	
 
-	public TrackWorld(double x, double y) {
-		this.x = x;
-		this.y = y; 
-	}
-
-   /**
-    * Runners displayed on the track
-    */
-	Runner r1 = new Runner(25, "blue", new Posn(25,40));
-	Runner r2 = new Runner(25, "green", new Posn(25,80));
-	Runner r3 = new Runner(25, "red", new Posn(25,120));
-	Runner r4 = new Runner(25, "purple", new Posn(25,160));
-	Player me = new Player(25, "white", new Posn(25,200));
-
+	/**
+	 * Runners displayed on the track
+	 */
 	public PApplet draw(PApplet c) {
+
 		startLine(c);
 		finishLine(c);
 		timer(c);
@@ -32,125 +34,120 @@ public class TrackWorld implements IWorld{
 		trackLines(c);
 		return c;
 	}
+	/* Displays the start line on the screen 
+	 * based on the amount of players
+	 */
 	void startLine(PApplet c) {
 		c.background(214, 99, 82);
-		c.line(40,0, 40, 220);		// start line
+		c.line(25,0, 25, screenSize);		// start line
 		c.stroke(255,255,255);
 		c.fill(255,255,255);
 		c.textSize(12);
-		c.text("Start!", 20, 20);
+		c.text("Start!", 40, 25);
 	}
+	/* Displays the finish line on the screen 
+	 * based on the amount of players
+	 */
 	void finishLine(PApplet c) {
-		c.line(755,0, 755, 220);	// finish line
+		c.line(775,0, 775, screenSize);	// finish line
 		c.fill(255,255,255);
 		c.textSize(12);
-		c.text("Finish!", 780, 20);
+		c.text("Finish!", 760, 25);
 	}
+	/* Displays the time on the screen */
 	void timer(PApplet c) {
 		c.fill(255,255,255);
 		int elapsedTimeInSeconds = c.millis() / 1000;
+		trackTime = elapsedTimeInSeconds;
 		c.textSize(20);
 		c.text("Time:" + elapsedTimeInSeconds, 380,15);
 	}
-	void players(PApplet c) {
-		c.fill(0, 0, 255);
-		c.circle((int)r1.p.x, (int)r1.p.y, r1.size);
-		c.fill(0, 255, 0);
-		c.circle((int)r2.p.x, (int)r2.p.y, r2.size);
+	/* Displays the runners on the screen*/
+	void drawRunner(PApplet c , Runner runner) {
 		c.fill(255,0,0);
-		c.circle((int)r3.p.x, (int)r3.p.y,r3.size);
-		c.fill(255, 0, 255);
-		c.circle((int)r4.p.x, (int)r4.p.y, r4.size);
-		c.fill(255, 255, 255);
-		c.circle((int)me.p.x, (int)me.p.y, me.size);
+		c.circle((int)runner.getPosn().getX(),(int)runner.getPosn().getY(),runner.getSize());
 	}
+	/* Displays the player on the screen*/
+	void drawPlayer(PApplet c, Player player) {
+		c.fill(255,255,255);
+		c.circle((int)player.getPosn().getX(),(int)player.getPosn().getY(),player.getSize());
+	}
+	/* Draws the player on the scene*/
+	void players(PApplet c) {
+		for (Runner runner: runners) {
+			drawRunner(c,runner);
+		}
+		drawPlayer(c,player);
+	}
+	/* Displays the track lines on the scene*/
 	void trackLines(PApplet c) {
-		c.line(0, 60, 800, 60);
-		c.line(0, 100, 800, 100);
-		c.line(0, 140, 800, 140);
-		c.line(0, 180, 800, 180);
+		for (int i = 0; i <= players; i++) {
+			int yPos = 60 + (i *40);
+			c.line(0, yPos, 800, yPos);
+		}
 	}
 	/**
 	 * Produces an updated world where the circle moves
 	 * across the screen, if it hasn't hit the finish
-	 * line yet.
-	 * If it has reached the finish line(for now it resets)
-	 * later we will most likely have a finish sequence presenting the winner
+	 * line yet. If it has it will display a finish screen
+	 * with the runners times.
 	 */
-	private boolean X1 = false;
-	private boolean X2 = false;
-	private boolean X3 = false;
-	private boolean X4 = false;
-	private boolean Player = false;
-	public IWorld update() {
-		double updatedX1 = r1.p.x + r1.speed; // updates the x-posn of r1
-		double updatedX2 = r2.p.x + r2.speed; // updates the x-posn of r2
-		double updatedX3 = r3.p.x + r3.speed; // updates the x-posn of r3
-		double updatedX4 = r4.p.x + r4.speed; // updates the x-posn of r4
 
-		while(!(X1 && X2 && X3 && X4 && Player)){ 
-			r1.p.x = updatedX1;
-			r2.p.x = updatedX2;
-			r3.p.x = updatedX3;
-			r4.p.x = updatedX4;
-			if(updatedX1 >= 770) {
-				X1 = true;
-				r1.p.x = 770;
-				r1.crossFinishLine(c.millis());
+	public IWorld update() {
+		for (int i = 0; i < players; i++) {
+			double updatedX = runners[i].getPosn().getX() + runners[i].getSpeed();
+
+			if(!runners[i].hasCrossedFinishLine()) {
+				runners[i].getPosn().setX(updatedX);
+
+				if(updatedX >= 780) {
+					runners[i].setCrossedLine(true);
+					runners[i].getPosn().setX(790);
+					runners[i].crossFinishLine(trackTime);
+				}
+				if(player.getPosn().getX() >= 780) {
+					player.setCrossedLine(true);
+					player.getPosn().setX(790);
+					player.crossFinishLine(trackTime);
+				}
 			}
-			if(updatedX2 >= 770) {
-				X2 = true;
-				r2.p.x = 770;
-				r2.crossFinishLine(c.millis());
-			}
-			if(updatedX3 >= 770) {
-				X3 = true;
-				r3.p.x = 770;
-				r3.crossFinishLine();
-			}
-			if(updatedX4 >= 770) {
-				X4 = true;
-				r4.p.x = 770;
-				r4.crossFinishLine(c.millis());
-			}
-			if(me.p.x >= 770) {
-				Player = true;
-				me.p.x = 770;
-				me.crossFinishLine(c.millis());
-			}
-			
-			// Check if all runners have finished
-	        if (X1 && X2 && X3 && X4 && Player) {
-	            double[] times = {r1.getTime(), r2.getTime(), r3.getTime(), r4.getTime(), me.getTime()};
-	            return new FinishState(times); // Pass the recorded times to FinishState
-	        }
-			
-			
-			return this;
 		}
-		double[] times = {};
-		return new FinishState(times);
+
+		boolean allRunnersFinished = true;
+		for (int i = 0; i < players; i++) {
+			if (!runners[i].hasCrossedFinishLine()) {
+				allRunnersFinished = false;
+				break;
+			}
+
+		}
+		if(allRunnersFinished) {
+			double[] times = new double[players + 1];
+			for (int i = 0; i < players; i++) {
+				times[i] = runners[i].getTime();
+			}
+		if(!player.hasCrossedFinishLine()) {
+			player.crossFinishLine(trackTime);
+		}
+		times[players] = player.getTime();
+		
+			return new FinishState(times);
+		}
+		return this;	
 	}
 
 	/**
 	 * moves player based on keys pressed
 	 */
 	public IWorld keyPressed(KeyEvent kev) {
+		double movementSpeed = 5;
+		double newX = player.getPosn().getX()+ movementSpeed;
+
 		if (kev.getKey() == 'a') { // left key <
-			me.p.x += 5;
+			player.getPosn().setX(newX);
 		} else if (kev.getKey() == 'd') { // right key >
-			me.p.x += 5;
+			player.getPosn().setX(newX);
 		}
 		return this;
-	}
-
-
-
-	/**
-	 * Produces a string rendering of the position of the
-	 * drop
-	 */
-	public String toString() {
-		return "[" + x + ", " + y + "]";
 	}
 }

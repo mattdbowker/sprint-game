@@ -6,10 +6,10 @@ import processing.event.*;
  */
 public class TrackApp extends PApplet {
     IWorld currentState;
-    //TrackWorld w;
     
     public void settings() {
-        this.size(800, 220);
+        this.size(800,550);// need to use screen size here
+
     }
     
     public void setup() {

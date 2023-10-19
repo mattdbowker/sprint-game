@@ -1,18 +1,16 @@
-
-import processing.core.PApplet;
-
-
 public class Player {
-	int size;
-	String color;
-	Posn p;
-	double finishTime;
+	private int size;
+	private String color;
+	private Posn p;
+	private double finishTime;
+	private boolean crossedLine;
 
 	public Player(int size, String color, Posn p) {
 		this.size = size;
 		this.color = color;
 		this.p = p;
 		this.finishTime = -1.0;
+		this.crossedLine = false;
 	}
 	
 	// Method to record player's time when they cross the finish line
@@ -23,10 +21,30 @@ public class Player {
         }
     }
 
-    // Method to get the recorded time for the player
+    /* Method to get the size of the player*/
+    public int getSize() {
+    	return size;
+    }
+    /* Method to get the color of the player*/
+    public String getColor() {
+    	return color;
+    }
+    /* Method to get the posn of the player*/
+    public Posn getPosn() {
+    	return p;
+    }
+    /* Method to get the recorded time for the player*/
     public double getTime() {
         return finishTime;
     }
+    /* Updates the crossed Line field*/
+    public void setCrossedLine(boolean x) {
+    	crossedLine = x;
+    }
+    /* Returns if the player has crossed the line*/
+    public boolean hasCrossedFinishLine() {
+		return crossedLine;
+	}
 }
 
 
