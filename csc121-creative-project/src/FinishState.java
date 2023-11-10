@@ -41,7 +41,7 @@ public class FinishState implements IWorld {
         c.textSize(18);
 
         for (int i = 0; i < times.length; i++) {
-            String runnerName = (i < 4) ? "Runner " + (i + 1) : "Player";
+            String runnerName = (i < 10) ? "Runner " + (i + 1) : "Player";
             double finishTime = times[i];
             String timeText = (finishTime >= 0) ? String.format("%.2f seconds", finishTime) : "DNF"; // DNF for Did Not Finish
 
