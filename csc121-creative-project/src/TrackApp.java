@@ -8,7 +8,7 @@ public class TrackApp extends PApplet {
     IWorld currentState;
     
     public void settings() {
-        this.size(800,550);// need to use screen size here
+        this.size(800, TrackWorld.screenSize);// need to use screen size here
 
     }
     

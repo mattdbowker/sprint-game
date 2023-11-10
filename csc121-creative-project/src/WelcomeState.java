@@ -20,6 +20,7 @@ public class WelcomeState implements IWorld{
 	public IWorld update() {
 		return this;
 	}
+	
 
 	/* Updates from the Welcome State to the game*/
 	public IWorld keyPressed(KeyEvent key) {

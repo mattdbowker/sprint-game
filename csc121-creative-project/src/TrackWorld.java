@@ -8,7 +8,7 @@ public class TrackWorld implements IWorld{
 	private long trackTime;
 	private String[] colors;
 	private Runner[] runners;
-	private static int screenSize;
+	public static int screenSize = 550;
 	private Player player;
 
 	public TrackWorld(int players) { 
