@@ -8,19 +8,21 @@ public class TrackWorld implements IWorld{
 	private long trackTime;
 	private String[] colors;
 	private Runner[] runners;
-	private static int screenSize;
-	private Player player;
+	public static int screenSize;
+	private Player me;
 
 	public TrackWorld(int players) { 
 		this.players = players;
 		runners = new Runner[players]; 
-		screenSize = 40 *(players+1);
+		screenSize = 41 *(players+1);
 		colors = new String[] {"blue","green","red","purple","yellow","orange","pink","cyan","magenta"};
 		for (int i = 0; i < players; i++) {
 			runners[i] = new Runner(25, colors[i], new Posn(25, (i + 1) * 40));
 		}
-		this.player = new Player(25, "white", new Posn(25, (players + 1) *40));
+		this.me = new Player(25, "white", new Posn(25, (players + 1) *40));
 	}	
+	
+	
 
 	/**
 	 * Runners displayed on the track
@@ -77,7 +79,7 @@ public class TrackWorld implements IWorld{
 		for (Runner runner: runners) {
 			drawRunner(c,runner);
 		}
-		drawPlayer(c,player);
+		drawPlayer(c,me);
 	}
 	/* Displays the track lines on the scene*/
 	void trackLines(PApplet c) {
@@ -105,10 +107,10 @@ public class TrackWorld implements IWorld{
 					runners[i].getPosn().setX(790);
 					runners[i].crossFinishLine(trackTime);
 				}
-				if(player.getPosn().getX() >= 780) {
-					player.setCrossedLine(true);
-					player.getPosn().setX(790);
-					player.crossFinishLine(trackTime);
+				if(me.getPosn().getX() >= 780) {
+					me.setCrossedLine(true);
+					me.getPosn().setX(790);
+					me.crossFinishLine(trackTime);
 				}
 			}
 		}
@@ -126,10 +128,10 @@ public class TrackWorld implements IWorld{
 			for (int i = 0; i < players; i++) {
 				times[i] = runners[i].getTime();
 			}
-		if(!player.hasCrossedFinishLine()) {
-			player.crossFinishLine(trackTime);
+		if(!me.hasCrossedFinishLine()) {
+			me.crossFinishLine(trackTime);
 		}
-		times[players] = player.getTime();
+		times[players] = me.getTime();
 		
 			return new FinishState(times);
 		}
@@ -141,12 +143,12 @@ public class TrackWorld implements IWorld{
 	 */
 	public IWorld keyPressed(KeyEvent kev) {
 		double movementSpeed = 5;
-		double newX = player.getPosn().getX()+ movementSpeed;
+		double newX = me.getPosn().getX()+ movementSpeed;
 
 		if (kev.getKey() == 'a') { // left key <
-			player.getPosn().setX(newX);
+			me.getPosn().setX(newX);
 		} else if (kev.getKey() == 'd') { // right key >
-			player.getPosn().setX(newX);
+			me.getPosn().setX(newX);
 		}
 		return this;
 	}

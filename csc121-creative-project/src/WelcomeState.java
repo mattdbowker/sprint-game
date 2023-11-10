@@ -1,10 +1,8 @@
 import static processing.core.PConstants.CENTER;
-
 import processing.core.PApplet;
 import processing.event.KeyEvent;
-
 public class WelcomeState implements IWorld{
-
+	private int players = 1;
 	@Override
 	public PApplet draw(PApplet c) {
 		c.background(214, 99, 82);
@@ -23,8 +21,13 @@ public class WelcomeState implements IWorld{
 
 	/* Updates from the Welcome State to the game*/
 	public IWorld keyPressed(KeyEvent key) {
+		if (key.getKey() == 'i') {
+			players++;
+		}else if (key.getKey() == 'k') {
+			players--;
+		}
 		if (key.getKey() == ' ') {
-			TrackWorld w = new TrackWorld(9);
+			TrackWorld w = new TrackWorld(players);
 			return w;
 		}
 		return this;
