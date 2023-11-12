@@ -1,3 +1,5 @@
+import java.io.PrintWriter;
+
 public class Player {
 	private int size;
 	private String color;
@@ -12,6 +14,7 @@ public class Player {
 		this.finishTime = -1.0;
 		this.crossedLine = false;
 	}
+	
 	
 	// Method to record player's time when they cross the finish line
     public void crossFinishLine(long currentTime) {
@@ -45,6 +48,18 @@ public class Player {
     public boolean hasCrossedFinishLine() {
 		return crossedLine;
 	}
+    
+    /**
+	 * print the time of this player to the given output file
+	 */
+	
+	public void writeToFile(PrintWriter pw) {
+		pw.println(this.finishTime);
+	}
+	
+	
+	
+	
 }
 
 

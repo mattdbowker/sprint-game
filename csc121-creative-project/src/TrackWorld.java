@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 /**
@@ -11,6 +15,8 @@ public class TrackWorld implements IWorld{
 	public static int screenSize;
 	private Player me;
 
+
+
 	public TrackWorld(int players) { 
 		this.players = players;
 		runners = new Runner[players]; 
@@ -19,8 +25,9 @@ public class TrackWorld implements IWorld{
 		for (int i = 0; i < players; i++) {
 			runners[i] = new Runner(25, colors[i], new Posn(25, (i + 1) * 40));
 		}
+
 		this.me = new Player(25, "white", new Posn(25, (players + 1) *40));
-	}	
+	}
 	
 	
 
@@ -88,6 +95,45 @@ public class TrackWorld implements IWorld{
 			c.line(0, yPos, 800, yPos);
 		}
 	}
+
+	/**
+	 * Saves finishing times to a text file
+	 */
+
+	public void saveTimes() {
+		try {
+			PrintWriter pw = new PrintWriter(new File("output.txt") );
+
+			me.writeToFile(pw);
+
+			pw.close();
+		} catch (IOException exp) {
+			System.out.println("Problem finding finishTime:" + exp.getMessage() );
+		}
+	}
+	
+	
+	
+	/**
+	 * Loads the top 5 finishing times from a text file
+	 *
+	
+	public void loadTimes() {
+		try {
+			Scanner sc = new Scanner(new File("output.txt"));
+			
+			while (sc.hasNextDouble()) {
+				Player p = new Player(sc);
+				this.bestPlayers.add(p);
+			}
+			
+			sc.close();
+		} catch (IOException exp) {
+			System.out.println("Problem loading times: " + exp.getMessage() );
+		}
+	}
+
+
 	/**
 	 * Produces an updated world where the circle moves
 	 * across the screen, if it hasn't hit the finish
@@ -124,6 +170,7 @@ public class TrackWorld implements IWorld{
 
 		}
 		if(allRunnersFinished) {
+			saveTimes();
 			double[] times = new double[players + 1];
 			for (int i = 0; i < players; i++) {
 				times[i] = runners[i].getTime();
@@ -134,6 +181,7 @@ public class TrackWorld implements IWorld{
 		times[players] = me.getTime();
 		
 			return new FinishState(times);
+			
 		}
 		return this;	
 	}
