@@ -49,10 +49,13 @@ public class FinishState implements IWorld {
 
             // Display the runner's name and finish time
             c.text(runnerName + ": " + timeText, 400, 50 + i * 20);
+            
+            
            
         }
         
     }
+	
 	
 	
 	

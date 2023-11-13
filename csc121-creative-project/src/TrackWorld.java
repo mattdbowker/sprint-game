@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import processing.core.PApplet;
 import processing.event.KeyEvent;
@@ -14,6 +16,7 @@ public class TrackWorld implements IWorld{
 	private Runner[] runners;
 	public static int screenSize;
 	private Player me;
+	private ArrayList<Double> highScores;
 
 
 
@@ -27,6 +30,10 @@ public class TrackWorld implements IWorld{
 		}
 
 		this.me = new Player(25, "white", new Posn(25, (players + 1) *40));
+		this.highScores = new ArrayList<>();
+		
+		 // Load doubles from a file
+        loadDoublesFromFile("input.txt");
 	}
 	
 	
@@ -111,6 +118,26 @@ public class TrackWorld implements IWorld{
 			System.out.println("Problem finding finishTime:" + exp.getMessage() );
 		}
 	}
+	
+	
+	private void loadDoublesFromFile(String fileName) {
+        try {
+            Scanner sc = new Scanner(new File(fileName));
+
+            while (sc.hasNextDouble()) {
+                double value = sc.nextDouble();
+                highScores.add(value);
+                // Do something with the loaded double values, maybe store them in an array or variable.
+                // For example, you can add them to a list or array:
+                // doubleList.add(value);
+            }
+
+            sc.close();
+        } catch (IOException exp) {
+            System.out.println("Problem loading doubles: " + exp.getMessage());
+        }
+    }
+
 	
 	
 	
