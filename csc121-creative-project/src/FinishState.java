@@ -11,7 +11,7 @@ import processing.event.KeyEvent;
 public class FinishState implements IWorld {
 	
 	private double[] times;
-	//private ArrayList<Double> allTimeFinishTimes;
+	private ArrayList<Double> allTimeFinishTimes;
 
     public FinishState(double[] times) {
         this.times = times;
@@ -33,7 +33,7 @@ public class FinishState implements IWorld {
 			Collections.sort(bp);
 			//Collections.reverse(bp);
 			for (int i = 0; i < 5 && i < bp.size() && i > 0; i++) { 
-				System.out.println("All Time Best: " + bp);
+				allTimeFinishTimes.addAll(bp);
 				}
 			
 			
@@ -52,6 +52,7 @@ public class FinishState implements IWorld {
 		c.textSize(24);
 		c.textAlign(CENTER);
 		c.text("FINISHED", 400, 20);
+		c.text("WORLD'S FASTEST 5", 400, 280);
 		c.textSize(18);
 		displayFinishTimes(c);
 		return c;
@@ -83,10 +84,7 @@ public class FinishState implements IWorld {
             c.text(runnerName + ": " + timeText, 400, 50 + i * 20);
             
             //Display the Best Times
-
-            loadTimes();
-
-            //c.text(runnerName + ": " + bp);
+            c.text(runnerName + ": " + allTimeFinishTimes, 400, 300 + i * 20);
 
            
         }
