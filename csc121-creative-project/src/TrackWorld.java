@@ -1,7 +1,9 @@
-import java.io.File;
+import java.io.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 import processing.core.PApplet;
@@ -29,9 +31,6 @@ public class TrackWorld implements IWorld{
 		}
 
 		this.me = new Player(25, "white", new Posn(25, (players + 1) *40));
-		this.highScores = new ArrayList<>();
-		
-		 // Load doubles from a file
 	}
 	
 	
@@ -71,10 +70,10 @@ public class TrackWorld implements IWorld{
 	/* Displays the time on the screen */
 	void timer(PApplet c) {
 		c.fill(255,255,255);
-		int elapsedTimeInSeconds = c.millis() / 1000;
+		int elapsedTimeInSeconds = c.millis();
 		trackTime = elapsedTimeInSeconds;
 		c.textSize(20);
-		c.text("Time:" + elapsedTimeInSeconds, 380,15);
+		c.text("Time:" + elapsedTimeInSeconds / 1000, 380,15);
 	}
 	/* Displays the runners on the screen*/
 	void drawRunner(PApplet c , Runner runner) {
@@ -107,7 +106,9 @@ public class TrackWorld implements IWorld{
 
 	public void saveTimes() {
 		try {
-			PrintWriter pw = new PrintWriter(new File("output.txt") );
+
+			PrintWriter pw = new PrintWriter(new FileOutputStream(
+							new File("output.txt"), true) ); /* append = true */
 
 			me.writeToFile(pw);
 
@@ -117,28 +118,34 @@ public class TrackWorld implements IWorld{
 		}
 	}
 	
+	
+	
 
-	
-	
-	
 	/**
 	 * Loads the top 5 finishing times from a text file
-	 *
+	 */
 	
 	public void loadTimes() {
 		try {
 			Scanner sc = new Scanner(new File("output.txt"));
+			ArrayList<Double> bp = new ArrayList<Double>();
 			
 			while (sc.hasNextDouble()) {
-				Player p = new Player(sc);
-				this.bestPlayers.add(p);
+				//Player p = new Player(sc);
+				bp.add(sc.nextDouble());
 			}
+			
+			Collections.sort(bp);
+			//Collections.reverse(bp);
+			// for (int i = 0; i < 5 && i < bp.size(); i++) { ... }
+			
 			
 			sc.close();
 		} catch (IOException exp) {
 			System.out.println("Problem loading times: " + exp.getMessage() );
 		}
 	}
+
 
 
 	/**

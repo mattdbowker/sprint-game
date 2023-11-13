@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Player {
 	private int size;
@@ -6,6 +7,11 @@ public class Player {
 	private Posn p;
 	private double finishTime;
 	private boolean crossedLine;
+	
+	public Player(Scanner sc) {
+		this.finishTime = sc.nextDouble();
+
+	}
 
 	public Player(int size, String color, Posn p) {
 		this.size = size;
@@ -13,8 +19,10 @@ public class Player {
 		this.p = p;
 		this.finishTime = -1.0;
 		this.crossedLine = false;
+
+		
 	}
-	
+
 	
 	// Method to record player's time when they cross the finish line
     public void crossFinishLine(long currentTime) {
