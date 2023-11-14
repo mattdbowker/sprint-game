@@ -11,7 +11,7 @@ public class WelcomeState implements IWorld{
 		c.text("Press space bar to start", 400, 50);
 		c.textSize(20);
 		c.text("Use keys 'a' and 'd' to move player", 400, 80);
-		c.text("Number of players (1-10):" + players, 400, 110);
+		c.text("Number of players (1-9): " + players, 400, 110);
 		return c;
 	}
 
@@ -25,7 +25,7 @@ public class WelcomeState implements IWorld{
 	public IWorld keyPressed(KeyEvent key) {
 		if (key.getKey() == 'i') {
 			players++;
-		}else if (key.getKey() == 'k') {
+		} else if (key.getKey() == 'k') {
 			players--;
 		}
 		if (key.getKey() == ' ') {

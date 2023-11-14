@@ -100,6 +100,8 @@ public class TrackWorld implements IWorld{
 		}
 	}
 
+	
+	
 	/**
 	 * Saves finishing times to a text file
 	 */
@@ -115,34 +117,6 @@ public class TrackWorld implements IWorld{
 			pw.close();
 		} catch (IOException exp) {
 			System.out.println("Problem finding finishTime:" + exp.getMessage() );
-		}
-	}
-	
-	
-	
-
-	/**
-	 * Loads the top 5 finishing times from a text file
-	 */
-	
-	public void loadTimes() {
-		try {
-			Scanner sc = new Scanner(new File("output.txt"));
-			ArrayList<Double> bp = new ArrayList<Double>();
-			
-			while (sc.hasNextDouble()) {
-				//Player p = new Player(sc);
-				bp.add(sc.nextDouble());
-			}
-			
-			Collections.sort(bp);
-			//Collections.reverse(bp);
-			// for (int i = 0; i < 5 && i < bp.size(); i++) { ... }
-			
-			
-			sc.close();
-		} catch (IOException exp) {
-			System.out.println("Problem loading times: " + exp.getMessage() );
 		}
 	}
 
@@ -200,11 +174,13 @@ public class TrackWorld implements IWorld{
 		return this;	
 	}
 
+	
+	
 	/**
 	 * moves player based on keys pressed
 	 */
 	public IWorld keyPressed(KeyEvent kev) {
-		double movementSpeed = 5;
+		double movementSpeed = 12;
 		double newX = me.getPosn().getX()+ movementSpeed;
 
 		if (kev.getKey() == 'a') { // left key <

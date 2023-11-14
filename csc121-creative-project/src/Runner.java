@@ -8,8 +8,8 @@ public class Runner {
 	private double finishTime;
 	private boolean crossedLine;
 
-	double min = 0.5; // Minimum value
-	double max = 1.0; // Maximum value
+	double min = 1.5; // Minimum value
+	double max = 2.0; // Maximum value
 	double randomValue = min + (Math.random() * (max - min));	// increase other runners speed so they aren't as slow
 
 

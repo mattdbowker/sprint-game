@@ -1,8 +1,7 @@
 import static processing.core.PConstants.CENTER;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import processing.core.PApplet;
@@ -11,33 +10,57 @@ import processing.event.KeyEvent;
 public class FinishState implements IWorld {
 	
 	private double[] times;
-	private ArrayList<Double> allTimeFinishTimes;
+	//private ArrayList<Double> allTimeFinishTimes;
+	private double[] highScoreTimes;
 
     public FinishState(double[] times) {
         this.times = times;
+       //this.allTimeFinishTimes = new ArrayList<>();
+        this.highScoreTimes = new double[5];
+        loadTimes();	// load in the times!!!
     }
     
     /**
-	 * Loads the top 5 finishing times from a text file
+	 * Loads the top 5 finishing times from 'output.txt'
 	 */
 	
 	public void loadTimes() {
 		try {
 			Scanner sc = new Scanner(new File("output.txt"));
-			ArrayList<Double> bp = new ArrayList<Double>();
+			double[] bp = new double[10];
+			int count = 0;
 			
-			while (sc.hasNextDouble()) {
-				bp.add(sc.nextDouble());
-			}
+			while (sc.hasNextDouble() && count < 10) {
+                bp[count] = sc.nextDouble();
+                count++;
+            }
 			
+			Arrays.sort(bp, 0, count); // Sort only the valid times
+
+            // Copy the top 5 times into the highScoreTimes array
+            int copyCount = Math.min(count, 5);
+            for (int i = 0; i < copyCount; i++) {
+                highScoreTimes[i] = bp[i]; // Copy the highest times to the highScoreTimes array
+            }
+
+			sc.close();
+			
+			// extra
+			//ArrayList<Double> bp = new ArrayList<Double>();
+			//while (sc.hasNextDouble()) {
+			//	bp.add(sc.nextDouble());
+			//}
+			
+			/*
 			Collections.sort(bp);
 			//Collections.reverse(bp);
-			for (int i = 0; i < 5 && i < bp.size() && i > 0; i++) { 
-				allTimeFinishTimes.addAll(bp);
-				}
 			
+            int count = Math.min(5, bp.size()); // To avoid going out of bounds if there are less than 5 times
+
+			for (int i = 0; i < count && i > 0; i++) { 
+				highScoreTimes.add(bp.get(i));
+			} */
 			
-			sc.close();
 		} catch (IOException exp) {
 			System.out.println("Problem loading times: " + exp.getMessage() );
 		}
@@ -55,6 +78,7 @@ public class FinishState implements IWorld {
 		c.text("WORLD'S FASTEST 5", 400, 280);
 		c.textSize(18);
 		displayFinishTimes(c);
+		displayHighScoreTimes(c);
 		return c;
 	}
 
@@ -68,6 +92,7 @@ public class FinishState implements IWorld {
 		return null;
 	}
 	
+	
 	/* Displays the finish times on the final state after all 
 	 * runners have crossed the finish line.
 	 */
@@ -79,17 +104,29 @@ public class FinishState implements IWorld {
             String runnerName = (i < 10) ? "Runner " + (i + 1) : "Player";
             double finishTime = times[i];
             String timeText = finishTime + "";
+            //double bestTime = highScoreTimes[i];
 
             // Display the runner's name and finish time
             c.text(runnerName + ": " + timeText, 400, 50 + i * 20);
-            
-            //Display the Best Times
-            c.text(runnerName + ": " + allTimeFinishTimes, 400, 300 + i * 20);
-
-           
         }
         
     }
+	
+	/**
+	 * Displays the high score times from 'output.txt' in descending order.
+	 * Will update if new time is less than a top 5 time.
+	 * 
+	 */
+	private void displayHighScoreTimes(PApplet c) {
+		c.fill(255);
+        c.textSize(18);
+
+        for (int i = 0; i < highScoreTimes.length; i++) {
+            if (highScoreTimes[i] != 0.0) {
+                c.text("Best Time " + (i + 1) + ": " + highScoreTimes[i], 400, 300 + i * 20);
+            }
+        }
+	}
 	
 	
 	
