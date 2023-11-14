@@ -23,10 +23,11 @@ public class WelcomeState implements IWorld{
 
 	/* Updates from the Welcome State to the game*/
 	public IWorld keyPressed(KeyEvent key) {
-		if (key.getKey() == 'i') {
-			players++;
-		} else if (key.getKey() == 'k') {
-			players--;
+		if (key.getKey() == 'i' && players < 9) {
+				players++;
+			
+		} else if (key.getKey() == 'k'&& players > 1){
+				players--;
 		}
 		if (key.getKey() == ' ') {
 			TrackWorld w = new TrackWorld(players);
